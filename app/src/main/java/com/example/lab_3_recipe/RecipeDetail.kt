@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 
@@ -14,11 +15,13 @@ import androidx.compose.ui.unit.dp
 fun RecipeDetailScreen(
     descriptionUiState: DescriptionUiState
 ){
+
+
     Column(
         modifier = Modifier
     ) {
-        Text(descriptionUiState.name)
+     Text(descriptionUiState.name)
     }
 
-         Text(descriptionUiState.decs)
+    Text(descriptionUiState.decs)
 }

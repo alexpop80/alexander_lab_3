@@ -28,10 +28,9 @@ class RecipeViewModel : ViewModel() {
 
     fun get_recipe_name(
  num: Int = _uiState.value.num
-
     ): Int {
-        var (x,y,z) = food[num]
-      var recipe_name = x
+        val (x,y,z) = food[num-1]
+        val recipe_name = x
         return recipe_name
     }
 
@@ -39,8 +38,8 @@ class RecipeViewModel : ViewModel() {
         num: Int = _uiState.value.num
 
     ): Int {
-        var (x,y,z) = food[num]
-        var recipe_decs = y
+        val (x,y,z) = food[num-1]
+        val recipe_decs = y
         return recipe_decs
     }
 

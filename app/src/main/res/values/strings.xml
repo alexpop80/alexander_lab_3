@@ -6,4 +6,5 @@
     <string name="desc_1">A classic Italian dish with rich meat sauce</string>
     <string name="desc_2">A Spicy and savory curry with tender chicken pieces</string>
     <string name="desc_3">A Creamy dish with sauteed pieces of beef and mushroom</string>
+    <string name="back_button">Back</string>
 </resources>
