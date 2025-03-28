@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Lab_3_recipe</string>
+    <string name="app_name">Recipe List</string>
+    <string name="recipe_1">Spaghettie Bolognese</string>
+    <string name="recipe_2">Chicken Curry</string>
+    <string name="recipe_3">Beef Stroganoff</string>
+    <string name="desc_1">A classic Italian dish with rich meat sauce</string>
+    <string name="desc_2">A Spicy and savory curry with tender chicken pieces</string>
+    <string name="desc_3">A Creamy dish with sauteed pieces of beef and mushroom</string>
 </resources>
