@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,8 +50,8 @@ fun RecipeExplorerApp(
         backStackEntry?.destination?.route ?: Recipe.Start.name
     )
 
-    Scaffold(//add things here
- ){ innerPadding ->
+    Scaffold{ innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
 
    NavHost(
        navController = navController,
@@ -61,10 +62,11 @@ fun RecipeExplorerApp(
            .padding(innerPadding)
    ) {
        composable(route = Recipe.Start.name){
+
            RecipelistScreen(
                food = Data.food,
                onNextButtonClicked = {
-                   viewModel.get_recipe_number(it)
+                   viewModel.setrecipenumber(it)
                    navController.navigate(Recipe.R1.name)
                },
                modifier = Modifier
@@ -74,7 +76,7 @@ fun RecipeExplorerApp(
 
        composable(route = Recipe.R1.name) {
            RecipeDetailScreen(
-               descriptionUiState = DescriptionUiState()
+               descriptionUiState = uiState
            )
        }
 

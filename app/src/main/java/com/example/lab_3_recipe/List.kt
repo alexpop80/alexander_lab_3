@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 fun RecipelistScreen(
     food: List<Triple<Int, Int, Int>>,
     onNextButtonClicked: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var selectedValue by rememberSaveable { mutableStateOf("") }
 
@@ -32,6 +32,7 @@ fun RecipelistScreen(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Text("Recipe List")
         food.forEach { item ->
             recipe_button(
                 labelResourceId = item.first,
@@ -51,11 +52,19 @@ fun recipe_button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Text("")
+
     Button(
         onClick = onClick,
         modifier = modifier.widthIn(min = 250.dp)
     ) {
-        Text(stringResource(labelResourceId))
-        Text(stringResource(labelResourceId2))
+        Column {
+
+            Text(text = stringResource(labelResourceId))
+
+            Text(
+            text = stringResource(labelResourceId2),
+        )
+    }
     }
 }
