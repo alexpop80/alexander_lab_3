@@ -1,6 +1,7 @@
 package com.example.lab_3_recipe
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Row
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -43,45 +45,62 @@ enum class Recipe(@StringRes val title: Int){
 fun RecipeExplorerApp(
     viewModel: RecipeViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
-){
-    val backStackEntry by navController.currentBackStackEntryAsState()
+) {
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+    val isTablet = screenWidthDp >= 600  // You can tune this
 
-    val currentScreen = Recipe.valueOf(
-        backStackEntry?.destination?.route ?: Recipe.Start.name
-    )
+    val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold{ innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
+    if (isTablet) {
+        // ✅ Tablet mode: show both screens in one Row
+        Row(modifier = Modifier.fillMaxSize()) {
+            RecipelistScreen(
+                food = Data.food,
+                onNextButtonClicked = {
+                    viewModel.setrecipenumber(it)
+                },
+                modifier = Modifier.weight(1f)
+            )
 
-   NavHost(
-       navController = navController,
-       startDestination = Recipe.Start.name,
-       modifier = Modifier
-           .fillMaxSize()
-           .verticalScroll(rememberScrollState())
-           .padding(innerPadding)
-   ) {
-       composable(route = Recipe.Start.name){
+            RecipeDetailScreen(
+                descriptionUiState = uiState,
 
-           RecipelistScreen(
-               food = Data.food,
-               onNextButtonClicked = {
-                   viewModel.setrecipenumber(it)
-                   navController.navigate(Recipe.R1.name)
-               },
-               modifier = Modifier
-                   .fillMaxSize()
-           )
-       }
+            )
+        }
+    } else {
+        // ✅ Phone mode: use your existing navigation
+        val backStackEntry by navController.currentBackStackEntryAsState()
+        val currentScreen = Recipe.valueOf(
+            backStackEntry?.destination?.route ?: Recipe.Start.name
+        )
 
-       composable(route = Recipe.R1.name) {
-           RecipeDetailScreen(
-               descriptionUiState = uiState
-           )
-       }
+        Scaffold { innerPadding ->
+            NavHost(
+                navController = navController,
+                startDestination = Recipe.Start.name,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                composable(route = Recipe.Start.name) {
+                    RecipelistScreen(
+                        food = Data.food,
+                        onNextButtonClicked = {
+                            viewModel.setrecipenumber(it)
+                            navController.navigate(Recipe.R1.name)
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
 
-
-   }
-  }
+                composable(route = Recipe.R1.name) {
+                    RecipeDetailScreen(
+                        descriptionUiState = uiState
+                    )
+                }
+            }
+        }
+    }
 }
 
